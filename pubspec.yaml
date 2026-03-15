@@ -1,0 +1,39 @@
+name: tarim_asistan
+description: Toprak analizi ve tarım rehberi mobil uygulaması
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: any
+
+  # Firebase
+  firebase_core: any
+  cloud_firestore: any
+
+  # Görüntü işleme
+  image_picker: any
+  tflite_flutter: any
+
+  # UI ve görsel optimizasyon
+  cached_network_image: any
+  google_fonts: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: any
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    # AI modelini ekledikten sonra satırı açın: - assets/model.tflite
+
