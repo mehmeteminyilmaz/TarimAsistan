@@ -1,10 +1,16 @@
 # 🌾 Tarım Asistan
 
-**Toprak analizi ve tarım rehberi** mobil uygulaması. Flutter ile geliştirilmiştir. Kullanıcılar toprak türleri hakkında bilgi alabilir, fotoğraf çekerek toprak analizi yapabilir ve hangi toprakta hangi bitkilerin yetişeceğini öğrenebilir.
+**Toprak analizi ve tarım rehberi** mobil uygulaması. Flutter ile **geliştirilmektedir** — proje şu an **yapım aşamasındadır**. Hedef: Kullanıcıların toprak türleri hakkında bilgi alması, fotoğraf çekerek toprak analizi yapması ve hangi toprakta hangi bitkilerin yetişeceğini öğrenmesi.
 
 ---
 
-## ✨ Özellikler
+## 📌 Proje durumu
+
+🟡 **Yapım aşamasında** — Uygulama iskeleti ve ekranlar hazır; Firebase bağlantısı, Firestore verileri ve AI model entegrasyonu üzerinde çalışılıyor.
+
+---
+
+## ✨ Hedeflenen özellikler
 
 - **Toprak Türleri** — Killi, kumlu, tınlı, kireçli vb. toprak türlerini inceleme; renk, pH, su tutma ve havalanma bilgileri
 - **Fotoğrafla Tanı** — Toprak fotoğrafı çekerek veya galeriden seçerek yapay zeka ile toprak türü tespiti
@@ -26,7 +32,7 @@
 
 ---
 
-## 📱 Uygulama Yapısı
+## 📱 Uygulama yapısı (planlanan / geliştirilen)
 
 1. **Ana Sayfa** — Gradient yeşil arka plan, logo ve 3 ana menü kartı (Toprak Türleri, Fotoğrafla Tanı, Bitki Rehberi)
 2. **Toprak Listesi** — Firestore’dan toprak türleri; kartlarda görsel, ad, renk, pH
@@ -114,4 +120,4 @@ Bu proje eğitim ve kişisel kullanım amaçlıdır.
 
 ---
 
-**Tarım Asistan** — Toprağını tanı, verimini artır.
+**Tarım Asistan** — Toprağını tanı, verimini artır. *(Yapım aşamasında)*
