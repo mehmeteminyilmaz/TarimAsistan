@@ -1,3 +1,4 @@
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,9 +15,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp();
-  } catch (e) {
-    // Firebase yapılandırılmamışsa (google-services.json yok) uygulama yine açılır;
-    // Firestore çağrıları hata verir, kullanıcı konsolu veya SnackBar ile görebilir.
+  } catch (_) {
+    // Firebase henüz bağlanmadıysa uygulama yine açılır.
   }
   runApp(const TarimAsistanApp());
 }
