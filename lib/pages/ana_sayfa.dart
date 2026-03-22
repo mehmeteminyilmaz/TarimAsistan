@@ -124,6 +124,15 @@ class _AnaSayfaState extends State<AnaSayfa> {
                       letterSpacing: 0.3,
                     ),
                   ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Kartlara dokun — toprakları incele, fotoğraf analizi yap veya bitki listesine göz at.',
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.55),
+                      fontSize: 12,
+                      height: 1.35,
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   Expanded(
                     child: ListView(

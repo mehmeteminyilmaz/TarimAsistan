@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'pages/ana_sayfa.dart';
+import 'models/bitki_model.dart';
+import 'pages/bitki_detay_sayfasi.dart';
 import 'pages/bitki_listesi_sayfasi.dart';
 import 'pages/foto_tarama_sayfasi.dart';
 import 'models/toprak_model.dart';
@@ -71,6 +73,12 @@ class TarimAsistanApp extends StatelessWidget {
           final toprak = settings.arguments as ToprakModel;
           return MaterialPageRoute(
             builder: (_) => ToprakDetaySayfasi(toprak: toprak),
+          );
+        }
+        if (settings.name == BitkiDetaySayfasi.routeName) {
+          final bitki = settings.arguments as BitkiModel;
+          return MaterialPageRoute(
+            builder: (_) => BitkiDetaySayfasi(bitki: bitki),
           );
         }
         if (settings.name == SonucSayfasi.routeName &&

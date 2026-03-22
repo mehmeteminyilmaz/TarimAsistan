@@ -84,8 +84,18 @@ class _ToprakListesiSayfasiState extends State<ToprakListesiSayfasi> {
               );
             }
 
-            return ListView.separated(
-              physics: const BouncingScrollPhysics(),
+            return RefreshIndicator(
+              color: TarimUi.clay,
+              onRefresh: () async {
+                setState(() {
+                  _future = FirebaseService.instance.getToprakTurleri();
+                });
+                await _future;
+              },
+              child: ListView.separated(
+              physics: const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics(),
+              ),
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
               itemCount: liste.length,
               separatorBuilder: (_, __) => const SizedBox(height: 14),
@@ -174,6 +184,7 @@ class _ToprakListesiSayfasiState extends State<ToprakListesiSayfasi> {
                   ),
                 );
               },
+            ),
             );
           },
         ),

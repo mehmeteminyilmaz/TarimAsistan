@@ -39,7 +39,7 @@
 3. **Toprak Detay** — SliverAppBar, özellikler, avantaj/dezavantaj listeleri, o toprakta yetişen bitkiler (yatay liste)
 4. **Fotoğrafla Tanı** — Kamera veya galeriden seçim, analiz sonrası sonuç sayfasına yönlendirme
 5. **Sonuç Sayfası** — Tespit edilen toprak, güven yüzdesi, önerilen bitkiler, “Detaylı Bilgileri Gör” butonu
-6. **Bitki Rehberi** — Kategori chip’leri (Tümü, Sebze, Meyve, Tahıl, Ağaç) ve 2 sütunlu grid
+6. **Bitki Rehberi** — Kategori chip’leri (Tümü, Sebze, Meyve, Tahıl, Ağaç) ve 2 sütunlu grid; bitkiye dokununca **bitki detay** (pH/su ihtiyacı, ekim–hasat, uygun topraklar, bakım ipuçları)
 
 ---
 

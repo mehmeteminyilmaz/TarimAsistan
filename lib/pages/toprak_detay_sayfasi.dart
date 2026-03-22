@@ -5,6 +5,7 @@ import '../models/bitki_model.dart';
 import '../models/toprak_model.dart';
 import '../services/firebase_service.dart';
 import '../ui/app_ui.dart';
+import 'bitki_detay_sayfasi.dart';
 
 class ToprakDetaySayfasi extends StatefulWidget {
   static const String routeName = '/toprak-detay';
@@ -227,6 +228,13 @@ class _ToprakDetaySayfasiState extends State<ToprakDetaySayfasi> {
                             return SizedBox(
                               width: 148,
                               child: TarimSurfaceCard(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    BitkiDetaySayfasi.routeName,
+                                    arguments: b,
+                                  );
+                                },
                                 padding: EdgeInsets.zero,
                                 child: Column(
                                   crossAxisAlignment:
@@ -238,29 +246,32 @@ class _ToprakDetaySayfasiState extends State<ToprakDetaySayfasi> {
                                       ),
                                       child: SizedBox(
                                         height: 96,
-                                        child: CachedNetworkImage(
-                                          imageUrl: b.resimUrl,
-                                          fit: BoxFit.cover,
-                                          errorWidget: (_, __, ___) =>
-                                              Container(
-                                            color: TarimUi.sage
-                                                .withValues(alpha: 0.4),
-                                            child: const Icon(
-                                              Icons.grass_rounded,
-                                              color: TarimUi.forest,
-                                              size: 40,
+                                        child: Hero(
+                                          tag: 'bitki_img_${b.id}',
+                                          child: CachedNetworkImage(
+                                            imageUrl: b.resimUrl,
+                                            fit: BoxFit.cover,
+                                            errorWidget: (_, __, ___) =>
+                                                Container(
+                                              color: TarimUi.sage
+                                                  .withValues(alpha: 0.4),
+                                              child: const Icon(
+                                                Icons.grass_rounded,
+                                                color: TarimUi.forest,
+                                                size: 40,
+                                              ),
                                             ),
-                                          ),
-                                          placeholder: (_, __) => Container(
-                                            color: TarimUi.cream,
-                                            child: const Center(
-                                              child: SizedBox(
-                                                width: 20,
-                                                height: 20,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  strokeWidth: 2,
-                                                  color: TarimUi.leaf,
+                                            placeholder: (_, __) => Container(
+                                              color: TarimUi.cream,
+                                              child: const Center(
+                                                child: SizedBox(
+                                                  width: 20,
+                                                  height: 20,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    strokeWidth: 2,
+                                                    color: TarimUi.leaf,
+                                                  ),
                                                 ),
                                               ),
                                             ),

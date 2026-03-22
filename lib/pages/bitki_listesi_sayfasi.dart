@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/bitki_model.dart';
 import '../services/firebase_service.dart';
 import '../ui/app_ui.dart';
+import 'bitki_detay_sayfasi.dart';
 
 class BitkiListesiSayfasi extends StatefulWidget {
   static const String routeName = '/bitki-listesi';
@@ -119,8 +120,19 @@ class _BitkiListesiSayfasiState extends State<BitkiListesiSayfasi> {
                     );
                   }
 
-                  return GridView.builder(
-                    physics: const BouncingScrollPhysics(),
+                  return RefreshIndicator(
+                    color: TarimUi.leaf,
+                    onRefresh: () async {
+                      setState(() {
+                        _future =
+                            FirebaseService.instance.getAllBitkiler();
+                      });
+                      await _future;
+                    },
+                    child: GridView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(
+                      parent: BouncingScrollPhysics(),
+                    ),
                     padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -137,7 +149,13 @@ class _BitkiListesiSayfasiState extends State<BitkiListesiSayfasi> {
                         child: InkWell(
                           borderRadius:
                               BorderRadius.circular(TarimUi.radiusLg),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              BitkiDetaySayfasi.routeName,
+                              arguments: b,
+                            );
+                          },
                           child: Ink(
                             decoration: BoxDecoration(
                               borderRadius:
@@ -157,28 +175,31 @@ class _BitkiListesiSayfasiState extends State<BitkiListesiSayfasi> {
                                     borderRadius: const BorderRadius.vertical(
                                       top: Radius.circular(TarimUi.radiusLg - 1),
                                     ),
-                                    child: CachedNetworkImage(
-                                      imageUrl: b.resimUrl,
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      errorWidget: (_, __, ___) => Container(
-                                        color: TarimUi.sage.withValues(
-                                            alpha: 0.35),
-                                        child: const Icon(
-                                          Icons.grass_rounded,
-                                          color: TarimUi.forest,
-                                          size: 48,
+                                    child: Hero(
+                                      tag: 'bitki_img_${b.id}',
+                                      child: CachedNetworkImage(
+                                        imageUrl: b.resimUrl,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        errorWidget: (_, __, ___) => Container(
+                                          color: TarimUi.sage.withValues(
+                                              alpha: 0.35),
+                                          child: const Icon(
+                                            Icons.grass_rounded,
+                                            color: TarimUi.forest,
+                                            size: 48,
+                                          ),
                                         ),
-                                      ),
-                                      placeholder: (_, __) => Container(
-                                        color: TarimUi.cream,
-                                        child: const Center(
-                                          child: SizedBox(
-                                            width: 24,
-                                            height: 24,
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2,
-                                              color: TarimUi.leaf,
+                                        placeholder: (_, __) => Container(
+                                          color: TarimUi.cream,
+                                          child: const Center(
+                                            child: SizedBox(
+                                              width: 24,
+                                              height: 24,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                                color: TarimUi.leaf,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -255,6 +276,7 @@ class _BitkiListesiSayfasiState extends State<BitkiListesiSayfasi> {
                         ),
                       );
                     },
+                    ),
                   );
                 },
               ),
