@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../services/ai_service.dart';
 import 'bitki_listesi_sayfasi.dart';
 import 'foto_tarama_sayfasi.dart';
 import 'toprak_listesi_sayfasi.dart';
@@ -15,33 +14,6 @@ class AnaSayfa extends StatefulWidget {
 }
 
 class _AnaSayfaState extends State<AnaSayfa> {
-  bool _modelLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _hazirlaModel();
-  }
-
-  Future<void> _hazirlaModel() async {
-    setState(() => _modelLoading = true);
-    try {
-      await AIService.instance.loadModel();
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('AI modeli yüklenirken hata oluştu.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } finally {
-      if (mounted) {
-        setState(() => _modelLoading = false);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -105,30 +77,6 @@ class _AnaSayfaState extends State<AnaSayfa> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                if (_modelLoading)
-                  Row(
-                    children: const [
-                      SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'AI modeli hazırlanıyor, lütfen bekleyin...',
-                          style: TextStyle(
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                if (_modelLoading) const SizedBox(height: 16),
                 Expanded(
                   child: Center(
                     child: SizedBox(

@@ -23,7 +23,11 @@ class AIService {
   /// Gerçek modelinizin giriş/çıkış biçimine göre bu fonksiyonu uyarlamanız gerekir.
   Future<Map<String, dynamic>> analizEt(String imagePath) async {
     if (_interpreter == null) {
-      await loadModel();
+      try {
+        await loadModel();
+      } catch (_) {
+        // model.tflite yoksa veya platform desteklemiyorsa yine de demo sonuç dön
+      }
     }
 
     // TODO: Burada imagePath ile resmi okuyup model girişine uygun şekilde

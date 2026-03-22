@@ -78,7 +78,56 @@
    flutter run
    ```
 
-> **Not:** AI toprak tanıma için `assets/model.tflite` dosyasını Teachable Machine veya TensorFlow Lite ile eğitip `pubspec.yaml` içindeki assets listesine eklemeniz gerekir.
+6. **Windows’ta kablosuz deneme (Firebase olmadan)**  
+   Firebase başlatılamazsa veya Firestore boş/hatalıysa uygulama otomatik olarak `lib/data/yerel_ornek_veriler.dart` içindeki **örnek toprak ve bitki** verilerini kullanır. Tam deneyim için:
+   ```bash
+   flutter run -d windows
+   ```
+
+> **Not:** AI toprak tanıma için `assets/model.tflite` dosyasını Teachable Machine veya TensorFlow Lite ile eğitip `pubspec.yaml` içindeki assets listesine eklemeniz gerekir. Model yoksa “Fotoğrafla Tanı” yine **demo sonuç** üretebilir.
+
+---
+
+## 📱 Android Studio SDK yolu ve fiziksel telefon
+
+### Neden `C:\Android\Sdk`?
+
+Kullanıcı klasörünüzde boşluk varsa (`mehmet emin yılmaz`), Android Studio’nun önerdiği yol şuna benzer olabilir:
+
+`C:\Users\...\AppData\Local\Android\Sdk`
+
+Bu yolda **boşluk** olduğu için kurulumda **“SDK location should not contain whitespace”** uyarısı çıkar; NDK ve bazı araçlarda sorun çıkabilir.
+
+**Öneri:** Tek bir SDK kullanın ve yolu **boşluksuz** tutun. Bu projede `android/local.properties` şu şekilde ayarlıdır:
+
+- `sdk.dir=C:\\Android\\Sdk`
+
+Android Studio’da **File → Settings → Languages & Frameworks → Android SDK** bölümünde **Android SDK Location** olarak `C:\Android\Sdk` seçili olsun (sihirbazda farklı bir yol gösteriyorsa **Edit** ile değiştirin).
+
+### `adb` komutu tanınmıyorsa
+
+`adb` genelde şu klasördedir:
+
+`C:\Android\Sdk\platform-tools\adb.exe`
+
+PowerShell’de tam yol ile:
+
+```powershell
+& "C:\Android\Sdk\platform-tools\adb.exe" kill-server
+& "C:\Android\Sdk\platform-tools\adb.exe" start-server
+& "C:\Android\Sdk\platform-tools\adb.exe" devices
+```
+
+Kalıcı kullanım için Windows **Ortam değişkenleri → Path** içine şunu ekleyin:
+
+`C:\Android\Sdk\platform-tools`
+
+### Telefon `not authorized` / `offline`
+
+1. Telefonda **USB hata ayıklama** açık olsun; kabloyu takınca **“USB hata ayıklamaya izin ver?”** penceresinde **İzin ver** deyin.
+2. USB modu: **Dosya aktarımı (MTP)** — sadece şarj değil.
+3. Gerekirse **Geliştirici seçenekleri → USB üzerinden yetkilendirmeleri iptal et**, kabloyu çıkarıp tekrar takın.
+4. `adb devices` çıktısında cihaz **`device`** olmalı; ardından `flutter devices` ve `flutter run -d <cihaz_id>`.
 
 ---
 
