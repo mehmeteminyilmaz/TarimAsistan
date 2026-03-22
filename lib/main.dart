@@ -10,6 +10,7 @@ import 'models/toprak_model.dart';
 import 'pages/sonuc_sayfasi.dart';
 import 'pages/toprak_detay_sayfasi.dart';
 import 'pages/toprak_listesi_sayfasi.dart';
+import 'ui/app_ui.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,10 +29,12 @@ class TarimAsistanApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final baseTheme = ThemeData(
       primarySwatch: Colors.green,
-      colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: Colors.green,
-      ).copyWith(
-        secondary: Colors.greenAccent,
+      scaffoldBackgroundColor: const Color(0xFFF4F9F4),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: TarimUi.leaf,
+        brightness: Brightness.light,
+        primary: TarimUi.forest,
+        secondary: TarimUi.mint,
       ),
       textTheme: GoogleFonts.poppinsTextTheme(),
       snackBarTheme: const SnackBarThemeData(

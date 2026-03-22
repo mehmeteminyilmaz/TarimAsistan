@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/bitki_model.dart';
 import '../models/toprak_model.dart';
 import '../services/firebase_service.dart';
+import '../ui/app_ui.dart';
 
 class ToprakDetaySayfasi extends StatefulWidget {
   static const String routeName = '/toprak-detay';
@@ -34,216 +35,173 @@ class _ToprakDetaySayfasiState extends State<ToprakDetaySayfasi> {
     final t = widget.toprak;
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F9F4),
       body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
-            expandedHeight: 240,
+            expandedHeight: 260,
             pinned: true,
-            backgroundColor: Colors.brown,
+            elevation: 0,
+            backgroundColor: TarimUi.clay,
+            foregroundColor: Colors.white,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(t.ad),
-              background: CachedNetworkImage(
-                imageUrl: t.resimUrl,
-                fit: BoxFit.cover,
-                errorWidget: (_, __, ___) => Container(
-                  color: Colors.brown.shade200,
-                  child: const Center(
-                    child: Icon(
-                      Icons.terrain,
-                      color: Colors.white,
-                      size: 64,
+              titlePadding: const EdgeInsets.only(left: 48, bottom: 14, right: 12),
+              title: Text(
+                t.ad,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w800,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black45,
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+              ),
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Hero(
+                    tag: 'toprak_thumb_${t.id}',
+                    child: CachedNetworkImage(
+                      imageUrl: t.resimUrl,
+                      fit: BoxFit.cover,
+                      errorWidget: (_, __, ___) => Container(
+                        color: TarimUi.clay,
+                        child: const Icon(
+                          Icons.terrain_rounded,
+                          color: Colors.white54,
+                          size: 80,
+                        ),
+                      ),
+                      placeholder: (_, __) => Container(
+                        color: const Color(0xFF8D6E63),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white54,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                placeholder: (_, __) => Container(
-                  color: Colors.brown.shade100,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withValues(alpha: 0.15),
+                          Colors.black.withValues(alpha: 0.55),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Temel Özellikler',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          _ozellikSatiri(
-                            ikon: Icons.palette,
-                            baslik: 'Renk',
-                            deger: t.renk,
-                          ),
-                          _ozellikSatiri(
-                            ikon: Icons.science,
-                            baslik: 'pH Aralığı',
-                            deger: t.phAralik,
-                          ),
-                          _ozellikSatiri(
-                            ikon: Icons.water_drop,
-                            baslik: 'Su Tutma',
-                            deger: t.suTutma,
-                          ),
-                          _ozellikSatiri(
-                            ikon: Icons.air,
-                            baslik: 'Havalanma',
-                            deger: t.havalanma,
-                          ),
-                        ],
+                  TarimSurfaceCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const TarimSectionTitle(
+                          title: 'Temel özellikler',
+                          icon: Icons.analytics_rounded,
+                        ),
+                        _OzellikSatiri(
+                          ikon: Icons.palette_rounded,
+                          baslik: 'Renk',
+                          deger: t.renk,
+                          renk: TarimUi.clay,
+                        ),
+                        _OzellikSatiri(
+                          ikon: Icons.science_rounded,
+                          baslik: 'pH aralığı',
+                          deger: t.phAralik,
+                          renk: TarimUi.leaf,
+                        ),
+                        _OzellikSatiri(
+                          ikon: Icons.water_drop_rounded,
+                          baslik: 'Su tutma',
+                          deger: t.suTutma,
+                          renk: TarimUi.sky,
+                        ),
+                        _OzellikSatiri(
+                          ikon: Icons.air_rounded,
+                          baslik: 'Havalanma',
+                          deger: t.havalanma,
+                          renk: Colors.teal.shade700,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  TarimSurfaceCard(
+                    child: Text(
+                      t.ozellikler,
+                      style: TextStyle(
+                        fontSize: 14,
+                        height: 1.5,
+                        color: Colors.grey.shade800,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  Text(
-                    t.ozellikler,
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 14),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.check_circle,
-                                      color: Colors.green,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'Avantajlar',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                ...t.avantajlar.map(
-                                  (a) => Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 2),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Icon(
-                                          Icons.check,
-                                          size: 16,
-                                          color: Colors.green,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Expanded(
-                                          child: Text(
-                                            a,
-                                            style:
-                                                const TextStyle(fontSize: 13),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        child: TarimSurfaceCard(
+                          borderColor: Colors.green.shade100,
+                          child: _ListeKutu(
+                            baslik: 'Avantajlar',
+                            baslikIcon: Icons.check_circle_rounded,
+                            baslikColor: Colors.green.shade700,
+                            satirIcon: Icons.check_rounded,
+                            satirColor: Colors.green.shade600,
+                            maddeler: t.avantajlar,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 10),
                       Expanded(
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.warning_amber_rounded,
-                                      color: Colors.orange,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'Dezavantajlar',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                ...t.dezavantajlar.map(
-                                  (d) => Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 2),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Icon(
-                                          Icons.check,
-                                          size: 16,
-                                          color: Colors.orange,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Expanded(
-                                          child: Text(
-                                            d,
-                                            style:
-                                                const TextStyle(fontSize: 13),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        child: TarimSurfaceCard(
+                          borderColor: Colors.orange.shade100,
+                          child: _ListeKutu(
+                            baslik: 'Dikkat',
+                            baslikIcon: Icons.warning_amber_rounded,
+                            baslikColor: Colors.orange.shade800,
+                            satirIcon: Icons.remove_rounded,
+                            satirColor: Colors.orange.shade700,
+                            maddeler: t.dezavantajlar,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Bu toprakta yetişen bitkiler',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  const SizedBox(height: 20),
+                  const TarimSectionTitle(
+                    title: 'Bu toprakta yetişen bitkiler',
+                    icon: Icons.local_florist_rounded,
                   ),
-                  const SizedBox(height: 8),
                   SizedBox(
-                    height: 180,
+                    height: 200,
                     child: FutureBuilder<List<BitkiModel>>(
                       future: _bitkiFuture,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(
+                              color: TarimUi.leaf,
+                            ),
                           );
                         }
                         if (snapshot.hasError) {
@@ -253,51 +211,56 @@ class _ToprakDetaySayfasiState extends State<ToprakDetaySayfasi> {
                         }
                         final bitkiler = snapshot.data ?? [];
                         if (bitkiler.isEmpty) {
-                          return const Center(
-                            child: Text('Bu toprak için kayıtlı bitki yok.'),
+                          return TarimEmptyState(
+                            icon: Icons.grass_rounded,
+                            message: 'Bu toprak için örnek bitki yok.',
                           );
                         }
                         return ListView.separated(
                           scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
                           itemCount: bitkiler.length,
                           separatorBuilder: (_, __) =>
                               const SizedBox(width: 12),
                           itemBuilder: (context, index) {
                             final b = bitkiler[index];
                             return SizedBox(
-                              width: 140,
-                              child: Card(
+                              width: 148,
+                              child: TarimSurfaceCard(
+                                padding: EdgeInsets.zero,
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   children: [
                                     ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(15),
-                                        topRight: Radius.circular(15),
+                                      borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(TarimUi.radiusLg),
                                       ),
                                       child: SizedBox(
-                                        height: 90,
-                                        width: double.infinity,
+                                        height: 96,
                                         child: CachedNetworkImage(
                                           imageUrl: b.resimUrl,
                                           fit: BoxFit.cover,
                                           errorWidget: (_, __, ___) =>
                                               Container(
-                                            color: Colors.green.shade100,
+                                            color: TarimUi.sage
+                                                .withValues(alpha: 0.4),
                                             child: const Icon(
-                                              Icons.grass,
-                                              color: Colors.green,
+                                              Icons.grass_rounded,
+                                              color: TarimUi.forest,
+                                              size: 40,
                                             ),
                                           ),
                                           placeholder: (_, __) => Container(
-                                            color: Colors.green.shade50,
+                                            color: TarimUi.cream,
                                             child: const Center(
                                               child: SizedBox(
-                                                width: 18,
-                                                height: 18,
+                                                width: 20,
+                                                height: 20,
                                                 child:
                                                     CircularProgressIndicator(
                                                   strokeWidth: 2,
+                                                  color: TarimUi.leaf,
                                                 ),
                                               ),
                                             ),
@@ -306,7 +269,7 @@ class _ToprakDetaySayfasiState extends State<ToprakDetaySayfasi> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(10),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -316,15 +279,17 @@ class _ToprakDetaySayfasiState extends State<ToprakDetaySayfasi> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 13,
                                             ),
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
-                                            'Kategori: ${b.kategori}',
-                                            style: const TextStyle(
+                                            b.kategori,
+                                            style: TextStyle(
                                               fontSize: 11,
-                                              color: Colors.grey,
+                                              color: Colors.grey.shade600,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
                                         ],
@@ -347,30 +312,61 @@ class _ToprakDetaySayfasiState extends State<ToprakDetaySayfasi> {
       ),
     );
   }
+}
 
-  Widget _ozellikSatiri({
-    required IconData ikon,
-    required String baslik,
-    required String deger,
-  }) {
+class _OzellikSatiri extends StatelessWidget {
+  const _OzellikSatiri({
+    required this.ikon,
+    required this.baslik,
+    required this.deger,
+    required this.renk,
+  });
+
+  final IconData ikon;
+  final String baslik;
+  final String deger;
+  final Color renk;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            ikon,
-            size: 20,
-            color: Colors.brown,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            '$baslik: ',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: renk.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
             ),
+            child: Icon(ikon, size: 20, color: renk),
           ),
+          const SizedBox(width: 12),
           Expanded(
-            child: Text(deger),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  baslik,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey.shade600,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  deger,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    height: 1.25,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -378,3 +374,66 @@ class _ToprakDetaySayfasiState extends State<ToprakDetaySayfasi> {
   }
 }
 
+class _ListeKutu extends StatelessWidget {
+  const _ListeKutu({
+    required this.baslik,
+    required this.baslikIcon,
+    required this.baslikColor,
+    required this.satirIcon,
+    required this.satirColor,
+    required this.maddeler,
+  });
+
+  final String baslik;
+  final IconData baslikIcon;
+  final Color baslikColor;
+  final IconData satirIcon;
+  final Color satirColor;
+  final List<String> maddeler;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(baslikIcon, color: baslikColor, size: 20),
+            const SizedBox(width: 6),
+            Text(
+              baslik,
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                color: baslikColor,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        ...maddeler.map(
+          (a) => Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(satirIcon, size: 16, color: satirColor),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    a,
+                    style: TextStyle(
+                      fontSize: 12,
+                      height: 1.35,
+                      color: Colors.grey.shade800,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
