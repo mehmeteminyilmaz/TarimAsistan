@@ -139,7 +139,7 @@ class _BitkiListesiSayfasiState extends State<BitkiListesiSayfasi> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 14,
                       crossAxisSpacing: 14,
-                      childAspectRatio: 0.72,
+                      childAspectRatio: 0.78,
                     ),
                     itemCount: liste.length,
                     itemBuilder: (context, index) {
@@ -170,10 +170,10 @@ class _BitkiListesiSayfasiState extends State<BitkiListesiSayfasi> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Expanded(
-                                  flex: 5,
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.vertical(
-                                      top: Radius.circular(TarimUi.radiusLg - 1),
+                                      top: Radius.circular(
+                                          TarimUi.radiusLg - 1),
                                     ),
                                     child: Hero(
                                       tag: 'bitki_img_${b.id}',
@@ -181,13 +181,34 @@ class _BitkiListesiSayfasiState extends State<BitkiListesiSayfasi> {
                                         imageUrl: b.resimUrl,
                                         fit: BoxFit.cover,
                                         width: double.infinity,
-                                        errorWidget: (_, __, ___) => Container(
-                                          color: TarimUi.sage.withValues(
-                                              alpha: 0.35),
-                                          child: const Icon(
-                                            Icons.grass_rounded,
-                                            color: TarimUi.forest,
-                                            size: 48,
+                                        height: double.infinity,
+                                        memCacheWidth: 500,
+                                        fadeInDuration: const Duration(
+                                          milliseconds: 200,
+                                        ),
+                                        errorWidget: (_, __, ___) =>
+                                            Container(
+                                          color: TarimUi.sage
+                                              .withValues(alpha: 0.4),
+                                          alignment: Alignment.center,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Icon(
+                                                Icons.grass_rounded,
+                                                color: TarimUi.forest,
+                                                size: 40,
+                                              ),
+                                              const SizedBox(height: 6),
+                                              Text(
+                                                b.ad,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: TarimUi.forest,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         placeholder: (_, __) => Container(
@@ -196,7 +217,8 @@ class _BitkiListesiSayfasiState extends State<BitkiListesiSayfasi> {
                                             child: SizedBox(
                                               width: 24,
                                               height: 24,
-                                              child: CircularProgressIndicator(
+                                              child:
+                                                  CircularProgressIndicator(
                                                 strokeWidth: 2,
                                                 color: TarimUi.leaf,
                                               ),
@@ -207,67 +229,65 @@ class _BitkiListesiSayfasiState extends State<BitkiListesiSayfasi> {
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  flex: 4,
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        10, 8, 10, 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          b.ad,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      10, 8, 10, 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        b.ad,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 2,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: TarimUi.leaf
+                                              .withValues(alpha: 0.12),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          b.kategori.toUpperCase(),
                                           style: const TextStyle(
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 14,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w700,
+                                            color: TarimUi.forest,
+                                            letterSpacing: 0.3,
                                           ),
                                         ),
-                                        const SizedBox(height: 4),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                            vertical: 2,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: TarimUi.leaf
-                                                .withValues(alpha: 0.12),
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: Text(
-                                            b.kategori.toUpperCase(),
-                                            style: const TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w700,
-                                              color: TarimUi.forest,
-                                              letterSpacing: 0.3,
-                                            ),
-                                          ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Text(
+                                        'Ekim: ${b.ekimZamani}',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.grey.shade700,
                                         ),
-                                        const Spacer(),
-                                        Text(
-                                          'Ekim: ${b.ekimZamani}',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 11,
-                                            color: Colors.grey.shade700,
-                                          ),
+                                      ),
+                                      Text(
+                                        'Hasat: ${b.hasatZamani}',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.grey.shade600,
                                         ),
-                                        Text(
-                                          'Hasat: ${b.hasatZamani}',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 11,
-                                            color: Colors.grey.shade600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
