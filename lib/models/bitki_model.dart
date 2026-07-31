@@ -9,6 +9,8 @@ class BitkiModel {
   final String hasatZamani;
   final String resimUrl;
   final List<String> bakimIpuclari;
+  /// Uzun açıklayıcı metin (yetiştirme ve özellikler).
+  final String aciklama;
 
   BitkiModel({
     required this.id,
@@ -21,6 +23,7 @@ class BitkiModel {
     required this.hasatZamani,
     required this.resimUrl,
     required this.bakimIpuclari,
+    this.aciklama = '',
   });
 
   factory BitkiModel.fromMap(String id, Map<String, dynamic> data) {
@@ -37,6 +40,7 @@ class BitkiModel {
       resimUrl: data['resim_url'] ?? '',
       bakimIpuclari:
           List<String>.from(data['bakim_ipuclari'] ?? const <String>[]),
+      aciklama: data['aciklama'] ?? '',
     );
   }
 }

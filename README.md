@@ -160,6 +160,7 @@ Kalıcı kullanım için Windows **Ortam değişkenleri → Path** içine şunu 
 | hasat_zamani | string | Hasat dönemi |
 | resim_url | string | Görsel URL |
 | bakim_ipuclari | array | Bakım ipuçları |
+| aciklama | string | Uzun yetiştirme / özellik açıklaması |
 
 ---
 

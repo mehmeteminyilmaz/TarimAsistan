@@ -139,6 +139,28 @@ class BitkiDetaySayfasi extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
+                  if (b.aciklama.trim().isNotEmpty) ...[
+                    TarimSurfaceCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const TarimSectionTitle(
+                            title: 'Genel bilgi',
+                            icon: Icons.menu_book_rounded,
+                          ),
+                          Text(
+                            b.aciklama,
+                            style: TextStyle(
+                              fontSize: 14,
+                              height: 1.55,
+                              color: Colors.grey.shade800,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                  ],
                   TarimSurfaceCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
